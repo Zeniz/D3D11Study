@@ -59,7 +59,7 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
     if( FAILED( InitWindow( hInstance, nCmdShow ) ) )
         return 0;
 
-    // DX Device 구성. Body를 생성한다.
+    // D3D Device, SwapChain, Context 구성.
     if( FAILED( InitDevice() ) )
     {
         CleanupDevice();
@@ -196,6 +196,13 @@ HRESULT InitDevice()
     createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
     
+    D3D_DRIVER_TYPE driverTypes[] =
+    {
+        D3D_DRIVER_TYPE_HARDWARE,
+        D3D_DRIVER_TYPE_WARP,
+        D3D_DRIVER_TYPE_REFERENCE,
+    };
+
     /*
     typedef
     enum D3D_DRIVER_TYPE
@@ -208,13 +215,6 @@ HRESULT InitDevice()
         D3D_DRIVER_TYPE_WARP	= ( D3D_DRIVER_TYPE_SOFTWARE + 1 )          // 고성능 소프트웨어 래스터라이저인 WARP를 사용합니다. CPU가 현대적일 경우, REFERENCE 보다 훨씬 나은 성능을 보여줍니다.
     } 	D3D_DRIVER_TYPE;
     */
-
-    D3D_DRIVER_TYPE driverTypes[] =
-    {
-        D3D_DRIVER_TYPE_HARDWARE,
-        D3D_DRIVER_TYPE_WARP,
-        D3D_DRIVER_TYPE_REFERENCE,
-    };
 
     UINT numDriverTypes = ARRAYSIZE( driverTypes );
 
@@ -327,9 +327,9 @@ HRESULT InitDevice()
     }
     else
     {
-        // DXGI_SWAP_CHAIN_DESC: SwapChain(버퍼)를 만들기 위한 설정정보 구조체.
-
         // DirectX 11.0 systems
+        // 
+        // DXGI_SWAP_CHAIN_DESC: SwapChain(버퍼)를 만들기 위한 설정정보 구조체.
         DXGI_SWAP_CHAIN_DESC sd = {};
         sd.BufferCount = 1;
         sd.BufferDesc.Width = width;
@@ -339,9 +339,12 @@ HRESULT InitDevice()
         sd.BufferDesc.RefreshRate.Denominator = 1;  // FrameRate 분모. 59.94 Hz 일 경우는 60000/1001
         sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;   // 해당 버퍼의 사용처.
         sd.OutputWindow = g_hWnd;       // 어느 윈도우에 투사할 것인지.
-        sd.SampleDesc.Count = 1;        // 멀티샘플링에 사용할 표본갯수 1,4,8..32(MAX) 멀티샘플링: https://codingfarm.tistory.com/420, https://lipcoder.tistory.com/22
+        sd.SampleDesc.Count = 1;        // 멀티샘플링에 사용할 표본갯수 1,4,8..32(MAX) 
         sd.SampleDesc.Quality = 0;      // 멀티샘플링 품질 레벨 - 0일 경우 하지 않음.
         sd.Windowed = TRUE;
+
+        // 참고: 멀티샘플링
+        // https://codingfarm.tistory.com/420, https://lipcoder.tistory.com/22
 
         hr = dxgiFactory->CreateSwapChain( g_pd3dDevice, &sd, &g_pSwapChain );
     }
