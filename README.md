@@ -1,20 +1,21 @@
 # D3D11Study - Tutorial_1
 
 ## 개요
-----------------
+
 D3D11을 사용하기 위하여, 드로우할 Window창 생성 및 Device, SwapChain, Context를 생성하고, Render루프를 구성합니다.
 D3D11는 렌더링에 필요한 리소스 생성과 렌더링커맨드를 분리하였습니다. 이는 각각, Device, DeviceContext 가 이를 대표합니다.
 
 ID3D11Device :
->	>	렌더링에 필요한 리소스들(버퍼, 텍스쳐, 버텍스셰이더..)등을 생성하기 위해 D3D에서 제공하는 인터페이스입니다.
+>	렌더링에 필요한 리소스들(버퍼, 텍스쳐, 버텍스셰이더..)등을 생성하기 위해 D3D에서 제공하는 인터페이스입니다.
 	
 ID3D11DeviceContext :
 >	Device에서 생성되는 요소들을 활용하여, 각 렌더링파이프라인 Stage에 맞는 렌더링커맨드를 생성하는 매서드를 제공하는 인터페이스입니다.
->	ImmediateContext는 하나의 App당 단 하나를 가지고 있습니다. 이는 즉각적인 렌더링커맨드를 보냅니다.
->	DeferredContext는 멀티스레딩을 위한 컨텍스트입니다. 커맨드리스트를 기록하고 있습니다.
+>	- ImmediateContext는 하나의 App당 단 하나를 가지고 있습니다. 이는 즉각적인 렌더링커맨드를 보냅니다.
+>	- DeferredContext는 멀티스레딩을 위한 컨텍스트입니다. 커맨드리스트를 기록하고 있습니다.
 
 (참고: MS Direct3D 11의 디바이스 소개
 <https://learn.microsoft.com/ko-kr/windows/win32/direct3d11/overviews-direct3d-11-devices-intro>)
+----------------
 
 깜빡임 및 테어링 현상을 해결하기 위해 백버퍼가 필요합니다.
 D3D에서는 SwapChain 안에 백버퍼를 두고 있습니다.
@@ -26,7 +27,7 @@ IDXGISwapChain :
 <https://learn.microsoft.com/ko-kr/windows/win32/direct3d9/what-is-a-swap-chain->)
 
 ## 튜토리얼 프로그램의 메인함수
-----------------
+
 윈도우 생성, D3D 사용 개체 준비, 게임루프(렌더) 로 이루어진 기본적인 메인함수입니다.
 
 ```cpp
@@ -69,13 +70,16 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 ```
 
 ## InitDevice()
--------------------
 
 D3D11을 사용하기 위해 Device, SwapChain, Context 를 구성하는 InitDevice() 를 부분적으로 나누어 살펴 볼 것입니다.
 
 ### 1. Device 생성
+
 사용할 레이어등에 관한 Flag와 드라이버에 맞는 Device 생성을 위해 파라미터들을 준비합니다.
+
 #### DeviceFlag
+----------------
+
 ```cpp
 // D3D Device에서 사용될 레이어의 플래그를 설정
     UINT createDeviceFlags = 0;
@@ -97,10 +101,14 @@ D3D11을 사용하기 위해 Device, SwapChain, Context 를 구성하는 InitDev
     createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
 ```
+
 (참고: MS D3D11_CREATE_DEVICE_FLAG 열거형(d3d11.h)
 <https://learn.microsoft.com/ko-kr/windows/win32/api/d3d11/ne-d3d11-d3d11_create_device_flag>)
 
+
 #### DriverTypes
+----------------
+
 ```cpp
 D3D_DRIVER_TYPE driverTypes[] =
     {
@@ -128,6 +136,8 @@ D3D_DRIVER_TYPE driverTypes[] =
 <https://learn.microsoft.com/ko-kr/windows/win32/api/d3dcommon/ne-d3dcommon-d3d_driver_type>)
 
 #### Feature Level
+----------------
+
 ```cpp
     /*
     * GPU에서 지원하는 D3D Level 입니다.
@@ -144,8 +154,10 @@ D3D_DRIVER_TYPE driverTypes[] =
 ```
 
 #### D3D11CreateDevice
+----------------
 위 파라미터로 사용할 변수들을 이용하여, Device를 생성합니다.
 튜토리얼은 D3D_DRIVER_TYPE 이 Hardware->WARP->Ref 순서로 시도하여, 성공할 때 까지 진행합니다.
+
 ```cpp
 // driverTypes[] 에 넣어둔 D3D_DRIVER_TYPE에 따라 Device를 생성합니다. 생성 실패시 다음 단계의 D3D_DRIVER_TYPE으로 생성을 시도합니다.
     // 해당 코드는 Hardware->WARP->Ref 순으로 시도합니다.
@@ -185,11 +197,16 @@ D3D_DRIVER_TYPE driverTypes[] =
     if( FAILED( hr ) )
         return hr;
 ```
+
 (참고: D3D11CreateDevice의 각 파라미터에 대한 설명
 <https://vsts2010.tistory.com/512>)
 
 ### 2. SwapChain 생성
+
+----------------
 IDXGIFactory1 에서 생성메서드를 제공하며, 이는 Device->GetAdapter()->GetParent()를 통해 구할 수 있습니다.
+
+
 ```cpp
     // SwapChain을 생성하는 IDXGIFactory 를 구합니다.
     // Obtain DXGI factory from device (since we used nullptr for pAdapter above)
@@ -213,9 +230,12 @@ IDXGIFactory1 에서 생성메서드를 제공하며, 이는 Device->GetAdapter(
         return hr;
 ```
 
+----------------
 DXGI_SWAP_CHAIN_DESC 에 SwapChain의 스펙을 명세하여 이를 파라미터로 전달하여 생성합니다.
 튜토리얼에서는 11.1 이후 버전과 그 이전으로 나누어 코드가 작성되어 있습니다.
 버전별로 Factory가 다르지만 큰 차이가 없으므로, 11.0 에서 SwapChain을 생성하는 내용을 살펴봅니다.
+
+
 
 ```cpp
         // DirectX 11.0 systems
@@ -235,6 +255,7 @@ DXGI_SWAP_CHAIN_DESC 에 SwapChain의 스펙을 명세하여 이를 파라미터
 
         hr = dxgiFactory->CreateSwapChain( g_pd3dDevice, &sd, &g_pSwapChain );
 ```
+
 (참고: 멀티샘플링
 <https://codingfarm.tistory.com/420>, 
 <https://lipcoder.tistory.com/22>)
@@ -242,7 +263,9 @@ DXGI_SWAP_CHAIN_DESC 에 SwapChain의 스펙을 명세하여 이를 파라미터
 ### 3. ImmediateContext 설정
 Device 생성 시 획득한 ImmediateContext에 렌더타겟뷰와 뷰포트를 설정합니다.
 
+----------------
 백버퍼를 SwapChain에서 가져온 후, 이를 타겟으로 하는 렌더타겟뷰를 만듭니다. 그리고 이를 Context에 설정합니다.
+
 ```cpp
 // SwapChain의 백버퍼를 가져옵니다.
     ID3D11Texture2D* pBackBuffer = nullptr;
@@ -260,7 +283,10 @@ Device 생성 시 획득한 ImmediateContext에 렌더타겟뷰와 뷰포트를 
     g_pImmediateContext->OMSetRenderTargets( 1, &g_pRenderTargetView, nullptr );
 ```
 
+----------------
+
 화면에 그려질 뷰포트를 설정하고, 이를 Context에 설정합니다.
+
 ```cpp
     // Setup the viewport
     // 뷰포트 설정. 렌더타겟뷰가 그려질 화면영역.
@@ -278,7 +304,7 @@ Device 생성 시 획득한 ImmediateContext에 렌더타겟뷰와 뷰포트를 
 이로써 InitDevice() 의 내용이 끝나고, 기본적인 준비가 되었습니다.
 
 ## Render()
-----------
+
 아직은 그려지는 것이 아무것도 없지만,
 루프에서 호출되고 있는 Render() 를 조금 살펴봅니다.
 ```cpp
