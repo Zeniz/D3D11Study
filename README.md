@@ -15,6 +15,7 @@ ID3D11DeviceContext :
 
 (참고: MS Direct3D 11의 디바이스 소개
 <https://learn.microsoft.com/ko-kr/windows/win32/direct3d11/overviews-direct3d-11-devices-intro>)
+
 ----------------
 
 깜빡임 및 테어링 현상을 해결하기 위해 백버퍼가 필요합니다.
@@ -78,7 +79,7 @@ D3D11을 사용하기 위해 Device, SwapChain, Context 를 구성하는 InitDev
 사용할 레이어등에 관한 Flag와 드라이버에 맞는 Device 생성을 위해 파라미터들을 준비합니다.
 
 #### DeviceFlag
-----------------
+
 
 ```cpp
 // D3D Device에서 사용될 레이어의 플래그를 설정
@@ -107,7 +108,7 @@ D3D11을 사용하기 위해 Device, SwapChain, Context 를 구성하는 InitDev
 
 
 #### DriverTypes
-----------------
+
 
 ```cpp
 D3D_DRIVER_TYPE driverTypes[] =
@@ -136,7 +137,7 @@ D3D_DRIVER_TYPE driverTypes[] =
 <https://learn.microsoft.com/ko-kr/windows/win32/api/d3dcommon/ne-d3dcommon-d3d_driver_type>)
 
 #### Feature Level
-----------------
+
 
 ```cpp
     /*
@@ -153,8 +154,8 @@ D3D_DRIVER_TYPE driverTypes[] =
 	UINT numFeatureLevels = ARRAYSIZE( featureLevels );
 ```
 
-#### D3D11CreateDevice
-----------------
+#### D3D11CreateDevice()
+
 위 파라미터로 사용할 변수들을 이용하여, Device를 생성합니다.
 튜토리얼은 D3D_DRIVER_TYPE 이 Hardware->WARP->Ref 순서로 시도하여, 성공할 때 까지 진행합니다.
 
