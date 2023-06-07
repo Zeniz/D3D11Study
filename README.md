@@ -49,7 +49,7 @@ struct ConstantBuffer
 	XMMATRIX mWorld;
 	XMMATRIX mView;
 	XMMATRIX mProjection;
-    // 추가: 광원의 방향과 색.
+    // 광원의 방향과 색.
 	XMFLOAT4 vLightDir[2];
 	XMFLOAT4 vLightColor[2];
 	XMFLOAT4 vOutputColor;
