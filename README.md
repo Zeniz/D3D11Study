@@ -7,7 +7,6 @@ Tutorial5_Transform 에 이어서 다음과 같이 진행됩니다.
 ![Tutorial5_Result](https://github.com/Zeniz/D3D11Study/assets/46617300/70d4b944-b844-4f93-9c1e-08485564832d)
 <Tutorial5_Transform의 결과화면>
 
-.
 ----------------
 ![Tutorial6_Result](https://github.com/Zeniz/D3D11Study/assets/46617300/61fed4eb-4b3b-4c04-a029-e763df6442b1)
 <Tutorial6_Lighting의 결과화면>
