@@ -361,8 +361,8 @@ HRESULT InitDevice()
 
     // 3. ImmediateContext 설정: Device 생성 시 획득한 ImmediateContext에 렌더타겟과 뷰포트 설정.
 
-    // SwapChain의 백버퍼를 가져옵니다.
     // Create a render target view
+    // SwapChain의 백버퍼를 가져옵니다.
     ID3D11Texture2D* pBackBuffer = nullptr;
     hr = g_pSwapChain->GetBuffer( 0, __uuidof( ID3D11Texture2D ), reinterpret_cast<void**>( &pBackBuffer ) );
     if( FAILED( hr ) )
@@ -378,7 +378,7 @@ HRESULT InitDevice()
     g_pImmediateContext->OMSetRenderTargets( 1, &g_pRenderTargetView, nullptr );
 
     // Setup the viewport
-    // 뷰포트 설정. 렌더타겟뷰의 그려질 화면영역.
+    // 뷰포트 설정. 렌더타겟뷰가 그려질 화면영역.
     D3D11_VIEWPORT vp;
     vp.Width = (FLOAT)width;
     vp.Height = (FLOAT)height;
