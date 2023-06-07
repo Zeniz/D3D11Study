@@ -1,9 +1,6 @@
-# D3D11Study - Tutorial_6
+# D3D11Study - Tutorial_1
 
 ## 개요
-
-
-
 
 D3D11을 사용하기 위하여, 드로우할 Window창 생성 및 Device, SwapChain, Context를 생성하고, Render루프를 구성합니다.
 D3D11는 렌더링에 필요한 리소스 생성과 렌더링커맨드를 분리하였습니다. 이는 각각, Device, DeviceContext 가 이를 대표합니다.
