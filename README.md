@@ -6,18 +6,20 @@ Tutorial5_Transform 에 이어서 다음과 같이 진행됩니다.
 
 ![Tutorial5_Result](https://github.com/Zeniz/D3D11Study/assets/46617300/70d4b944-b844-4f93-9c1e-08485564832d)
 <Tutorial5_Transform의 결과화면>
-.
+----------------
 ![Tutorial6_Result](https://github.com/Zeniz/D3D11Study/assets/46617300/61fed4eb-4b3b-4c04-a029-e763df6442b1)
 <Tutorial6_Lighting의 결과화면>
 
 ----------------
 
-Lighting 적용 내용은 곧 픽셀 색에 대한 적용입니다.
+Lighting 적용 내용은 곧 픽셀 색에 대한 추가연산 적용입니다.
+
 따라서, 픽셀 셰이더에서 어떻게 색을 결정하는지에 대한 내용입니다.
 
 해당 튜토리얼의 진행 개요는 다음과 같습니다.
-1. 고정된 광원, 회전하는 광원에 대한 구현.
-2. 광원 벡터와 표면의 법선벡터를 활용한 라이팅 적용. (Lambertian 조명)
+1. 적용할 조명법에 대한 설명
+2. 고정된 광원, 회전하는 광원에 대한 구현.
+3. 픽셀셰이더 라이팅 적용. (Lambertian 조명)
 
 ----------------
 
