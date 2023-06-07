@@ -37,6 +37,7 @@ struct ConstantBuffer
 	XMMATRIX mWorld;
 	XMMATRIX mView;
 	XMMATRIX mProjection;
+    // 추가: 광원의 방향과 색.
 	XMFLOAT4 vLightDir[2];
 	XMFLOAT4 vLightColor[2];
 	XMFLOAT4 vOutputColor;
@@ -636,23 +637,29 @@ void Render()
     // Rotate cube around the origin
 	g_World = XMMatrixRotationY( t );
 
+    // 추가: 광원의 데이터 추가.
     // Setup our lighting parameters
     XMFLOAT4 vLightDirs[2] =
     {
+        // 고정된 광원의 위치
         XMFLOAT4( -0.577f, 0.577f, -0.577f, 1.0f ),
+        // 움직이는 광원의 위치
         XMFLOAT4( 0.0f, 0.0f, -1.0f, 1.0f ),
     };
     XMFLOAT4 vLightColors[2] =
     {
+        // 고정된 광원의 색
         XMFLOAT4( 0.5f, 0.5f, 0.5f, 1.0f ),
+        // 움직이는 광원의 색
         XMFLOAT4( 0.5f, 0.0f, 0.0f, 1.0f )
     };
 
+    // 변경: from 큐브의 제자리 회전 to 움직이는 광원의 회전
     // Rotate the second light around the origin
-	XMMATRIX mRotate = XMMatrixRotationY( -2.0f * t );
-	XMVECTOR vLightDir = XMLoadFloat4( &vLightDirs[1] );
-	vLightDir = XMVector3Transform( vLightDir, mRotate );
-	XMStoreFloat4( &vLightDirs[1], vLightDir );
+    XMVECTOR vLightDir = XMLoadFloat4(&vLightDirs[1]);      // 광원의 위치를 벡터화한 후,
+	XMMATRIX mRotate = XMMatrixRotationY( -2.0f * t );      // Y축회전에 대한 회전행렬을 구해서,
+	vLightDir = XMVector3Transform( vLightDir, mRotate );   // 벡터를 회전시킵니다.
+	XMStoreFloat4( &vLightDirs[1], vLightDir );             // 계산된 결과를 vLightDirs[1]에 저장합니다.
 
 	//
     // Clear the back buffer
@@ -672,6 +679,7 @@ void Render()
 	cb1.mWorld = XMMatrixTranspose( g_World );
 	cb1.mView = XMMatrixTranspose( g_View );
 	cb1.mProjection = XMMatrixTranspose( g_Projection );
+    // 추가: 버퍼에 광원 데이터를 추가합니다.
 	cb1.vLightDir[0] = vLightDirs[0];
 	cb1.vLightDir[1] = vLightDirs[1];
 	cb1.vLightColor[0] = vLightColors[0];
@@ -687,14 +695,18 @@ void Render()
 	g_pImmediateContext->PSSetShader( g_pPixelShader, nullptr, 0 );
 	g_pImmediateContext->PSSetConstantBuffers( 0, 1, &g_pConstantBuffer );
 	g_pImmediateContext->DrawIndexed( 36, 0, 0 );
-
+    
+    // 추가: 광원 오브젝트 그리기
     //
     // Render each light
     //
     for( int m = 0; m < 2; m++ )
     {
-		XMMATRIX mLight = XMMatrixTranslationFromVector( 5.0f * XMLoadFloat4( &vLightDirs[m] ) );
-		XMMATRIX mLightScale = XMMatrixScaling( 0.2f, 0.2f, 0.2f );
+        float Distance = 3.0f;
+        float LightObjectScale = 0.2f;
+		
+        XMMATRIX mLight = XMMatrixTranslationFromVector(Distance * XMLoadFloat4(&vLightDirs[m]));       // 거리를 적용한 위치행렬 생성
+		XMMATRIX mLightScale = XMMatrixScaling(LightObjectScale, LightObjectScale, LightObjectScale);   // 스케일링 행렬 생성.
         mLight = mLightScale * mLight;
 
         // Update the world variable to reflect the current light

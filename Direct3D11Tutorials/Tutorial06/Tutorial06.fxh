@@ -43,6 +43,7 @@ PS_INPUT VS( VS_INPUT input )
     output.Pos = mul( input.Pos, World );
     output.Pos = mul( output.Pos, View );
     output.Pos = mul( output.Pos, Projection );
+    // 변경: 
     output.Norm = mul( float4( input.Norm, 1 ), World ).xyz;
     
     return output;
@@ -59,7 +60,8 @@ float4 PS( PS_INPUT input) : SV_Target
     //do NdotL lighting for 2 lights
     for(int i=0; i<2; i++)
     {
-        finalColor += saturate( dot( (float3)vLightDir[i],input.Norm) * vLightColor[i] );
+        // 내적으로 구한 사잇각이 빛의 세기를 나타냅니다.
+        finalColor += saturate( dot( (float3)vLightDir[i], input.Norm) * vLightColor[i] );
     }
     finalColor.a = 1;
     return finalColor;
