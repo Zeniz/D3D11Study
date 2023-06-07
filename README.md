@@ -18,15 +18,16 @@ Lighting 적용 내용은 곧 픽셀 색에 대한 추가연산 적용입니다.
 따라서, 픽셀 셰이더에서 어떻게 색을 결정하는지에 대한 내용입니다.
 
 해당 튜토리얼의 진행 개요는 다음과 같습니다.
-1. 적용할 조명법에 대한 설명
-2. 고정된 광원, 회전하는 광원에 대한 구현.
-3. 픽셀셰이더 라이팅 적용. (Lambertian 조명)
+1. 조명법에 대한 설명 (Lambertian 조명)
+2. 고정된 광원, 회전하는 광원에 대한 구현
+3. 픽셀셰이더 라이팅 적용 
 
 ----------------
 
 ## 02 Lambertian 조명
 
 라이팅의 적용은 광원으로부터 반사된 빛의 세기를 계산하는 것과 같습니다.
+
 램버시안 조명은 단순히 광원과 표면과의 사잇각을 빛의 세기로 간주합니다.
 
 ![Lambertian_cosine_law](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FotsaW%2FbtqLf7N74wq%2Fea6QuXpFPeadDkRssvo66k%2Fimg.png)
