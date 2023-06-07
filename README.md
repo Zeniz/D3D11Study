@@ -67,7 +67,7 @@ void Render()
 {
 	// ...
 	
-	// 추가: 광원의 데이터 추가.
+	// 광원의 데이터
     // Setup our lighting parameters
     XMFLOAT4 vLightDirs[2] =
     {
@@ -84,7 +84,7 @@ void Render()
         XMFLOAT4( 0.5f, 0.0f, 0.0f, 1.0f )
     };
 
-    // 변경: from 큐브의 제자리 회전 to 움직이는 광원의 회전
+    // 움직이는 광원의 회전 적용
     // Rotate the second light around the origin
 	
     XMVECTOR vLightDir = XMLoadFloat4(&vLightDirs[1]);      // 광원의 위치를 벡터화한 후,
@@ -111,7 +111,7 @@ void Render()
 	cb1.mView = XMMatrixTranspose( g_View );
 	cb1.mProjection = XMMatrixTranspose( g_Projection );
 	
-    // 추가: 광원 데이터.
+    // 광원 데이터.
 	cb1.vLightDir[0] = vLightDirs[0];
 	cb1.vLightDir[1] = vLightDirs[1];
 	cb1.vLightColor[0] = vLightColors[0];
@@ -130,9 +130,9 @@ void Render()
 ```cpp
 void Render()
 {
-	// Render the cube {...}
+	// Render the center cube {...}
 	
-    // 추가: 광원 오브젝트 그리기
+    // 광원 오브젝트 그리기
     // Render each light
     //
     for( int m = 0; m < 2; m++ )
@@ -165,6 +165,7 @@ void Render()
 02 Lambertian 조명을 적용합니다.
 
 LightIntensity(0 ~ 1) = saturate( dot(표면의 법선벡터, 반사된 빛벡터) )
+
 FinalColor = LightIntensity * vLightColor
 
 ```cpp
