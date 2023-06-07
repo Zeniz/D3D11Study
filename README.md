@@ -2,9 +2,10 @@
 
 ## 개요
 
+![Tutorial5_Result](https://github.com/Zeniz/D3D11Study/assets/46617300/70d4b944-b844-4f93-9c1e-08485564832d)
 ![Tutorial6_Result](https://github.com/Zeniz/D3D11Study/assets/46617300/61fed4eb-4b3b-4c04-a029-e763df6442b1)
 
-![Lambertian_Reflectance](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbFCWCg%2FbtqLhO8ADrG%2F3j2dgiWhJ3G5IeEx4VKof1%2Fimg.png)
+![Lambertian_cosine_law](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FotsaW%2FbtqLf7N74wq%2Fea6QuXpFPeadDkRssvo66k%2Fimg.png)
 
 
 
