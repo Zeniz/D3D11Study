@@ -2,7 +2,7 @@
 
 ## 개요
 
-
+![Tutorial6_Result](https://github.com/Zeniz/D3D11Study/assets/46617300/61fed4eb-4b3b-4c04-a029-e763df6442b1)
 
 
 D3D11을 사용하기 위하여, 드로우할 Window창 생성 및 Device, SwapChain, Context를 생성하고, Render루프를 구성합니다.
